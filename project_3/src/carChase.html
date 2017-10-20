@@ -9,12 +9,15 @@
 
 var scene; 
 var player;
+var background;
+var BACKGROUND_SPEED = 10;
 
 function init(){
     // create new scene
     scene = new Scene();
     scene.setSize(800, 600);
     
+    background = new Background();
     player = new Player();
     
 
@@ -23,30 +26,45 @@ function init(){
         
 function update(){           
     scene.clear();
+    background.update();
     player.checkKeys();
     player.update();
 
 } // end update();
 
-        function Player(){
-            tPlayer = new Sprite(scene, "../assets/img/player.png", 100, 100);
-            tPlayer.setPosition(400, 550);
-            tPlayer.setSpeed(0);
-            tPlayer.setAngle(90);
-            tPlayer.checkKeys = function(){
-                tPlayer.setAngle(90);
-                if (keysDown[K_A]){
-                    this.changeXby(-7);
-                    tPlayer.setAngle(70);
-                } else if (keysDown[K_D]){
-                    this.changeXby(7);
-                    this.setAngle(110);
-                }
-            }
-            return tPlayer;
+function Player(){
+    tPlayer = new Sprite(scene, "../assets/img/player.png", 100, 100);
+    tPlayer.setPosition(400, 550);
+    tPlayer.setSpeed(0);
+    tPlayer.setAngle(90);
+    tPlayer.checkKeys = function(){
+        tPlayer.setAngle(90);
+        if (keysDown[K_A]){
+            this.changeXby(-7);
+            tPlayer.setAngle(70);
+        } else if (keysDown[K_D]){
+            this.changeXby(7);
+            this.setAngle(110);
         }
+    }
+    return tPlayer;
+}
 
-        
+function Background(){
+    tBackground = new Sprite(scene, "../assets/img/background.png", 800, 1440);
+    tBackground.setDX(0);
+    tBackground.setDY(BACKGROUND_SPEED);
+    tBackground.setPosition(400, 0);
+           
+    tBackground.checkBounds = function(){
+        if (this.y > 655){
+            this.setPosition(400, -120)
+        } 
+    }
+           
+    return tBackground;    
+}
+
 
 </script>
 </head>
