@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>Car Chase</title>
+    <script type="text/javascript"
+            src = "./simpleGame.js"></script>
+<script type="text/javascript">
+
+var scene; 
+var player;
+
+function init(){
+    // create new scene
+    scene = new Scene();
+    scene.setSize(800, 600);
+    
+    player = new Player();
+    
+
+    scene.start();
+}  // end init
+        
+function update(){           
+    scene.clear();
+    player.checkKeys();
+    player.update();
+
+} // end update();
+
+        function Player(){
+            tPlayer = new Sprite(scene, "../assets/img/player.png", 100, 100);
+            tPlayer.setPosition(400, 550);
+            tPlayer.setSpeed(0);
+            tPlayer.setAngle(90);
+            tPlayer.checkKeys = function(){
+                tPlayer.setAngle(90);
+                if (keysDown[K_A]){
+                    this.changeXby(-7);
+                    tPlayer.setAngle(70);
+                } else if (keysDown[K_D]){
+                    this.changeXby(7);
+                    this.setAngle(110);
+                }
+            }
+            return tPlayer;
+        }
+
+        
+
+</script>
+</head>
+<body onload = "init()">
+
+</body>
+</html>
