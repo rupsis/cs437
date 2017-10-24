@@ -1,6 +1,6 @@
 function Player(){
-    tPlayer = new Sprite(scene, "../assets/img/player.png", 100, 100);
-    tPlayer.setPosition(400, 550);
+    tPlayer = new Sprite(scene, "../assets/img/player.png", 60, 120);
+    tPlayer.setPosition(400, 540);
     tPlayer.setSpeed(0);
     tPlayer.setAngle(90);
     tPlayer.checkKeys = function(){

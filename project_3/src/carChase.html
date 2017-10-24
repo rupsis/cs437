@@ -4,52 +4,59 @@
     <meta charset="UTF-8">
     <title>Car Chase</title>
     <script type="text/javascript" src = "./simpleGame.js"></script>
-    <script type="text/javascript" src = "./Player.js"></script>
-    <script type="text/javascript" src = "./Background.js"></script>
+    <script type="text/javascript" src = "./player.js"></script>
+    <script type="text/javascript" src = "./background.js"></script>
+    <script type="text/javascript" src = "./car.js"></script>
 
 <script type="text/javascript">
 
 var scene; 
 var player;
 var background;
+var cars;
+
+// Constants
+var NUM_TREE = 2;
 var BACKGROUND_SPEED = 10;
+
 
 function init(){
     // create new scene
     scene = new Scene();
     scene.setSize(800, 600);
+
+    makeCars();
     
     background = new Background();
     player = new Player();
-    
+   
 
     scene.start();
 }  // end init
         
 function update(){           
     scene.clear();
+
+    checkCollision()
+
     background.update();
+    updateCars();
     player.checkKeys();
     player.update();
+   
 
-} // end update();
+} 
 
 
 
-function Background(){
-    tBackground = new Sprite(scene, "../assets/img/background.png", 800, 1440);
-    tBackground.setDX(0);
-    tBackground.setDY(BACKGROUND_SPEED);
-    tBackground.setPosition(400, 0);
-           
-    tBackground.checkBounds = function(){
-        if (this.y > 655){
-            this.setPosition(400, -120)
-        } 
-    }
-           
-    return tBackground;    
+function checkCollision(){
+    for (i = 0; i < NUM_CARS; i++){
+            if (player.collidesWith(cars[i])){
+                console.log("collision");
+            } // end if
+        } // end for
 }
+
 
 
 </script>
