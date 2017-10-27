@@ -7,6 +7,7 @@
     <script type="text/javascript" src = "./player.js"></script>
     <script type="text/javascript" src = "./background.js"></script>
     <script type="text/javascript" src = "./car.js"></script>
+    <script type="text/javascript" src = "./secondaryObjects.js"></script>
 
 <script type="text/javascript">
 
@@ -14,6 +15,7 @@ var scene;
 var player;
 var background;
 var cars;
+var trees;
 
 // Constants
 var NUM_TREE = 2;
@@ -25,8 +27,9 @@ function init(){
     scene = new Scene();
     scene.setSize(800, 600);
 
-    makeCars();
     
+    makeCars();
+    makeSecondaryObject();
     background = new Background();
     player = new Player();
    
@@ -41,20 +44,34 @@ function update(){
 
     background.update();
     updateCars();
+    updateSecondaryObject();
     player.checkKeys();
     player.update();
    
 
 } 
 
+function stop(){
+    console.log("collision");
+    scene.stop();
+    var replay = confirm("game over. Play again?");
+    if(replay){
+        location.reload(); 
+    }
+}
 
 
 function checkCollision(){
     for (i = 0; i < NUM_CARS; i++){
-            if (player.collidesWith(cars[i])){
-                console.log("collision");
-            } // end if
-        } // end for
+        if (player.collidesWith(cars[i])){
+            stop();
+        } 
+    } 
+    for(i = 0; i < NUM_TREE; i++){
+        if (player.collidesWith(trees[i])){
+            stop();
+        } 
+    }
 }
 
 

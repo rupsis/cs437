@@ -1,41 +1,44 @@
-var NUM_CARS = 1;
+var NUM_CARS = 5;
 
-function Car(sprit, speed){
-    var carSpeed = BACKGROUND_SPEED;
-    tCar = new Sprite(scene, "../assets/img/car" + sprit + ".png", 60, 120); 
+function Car(position){
+    tCar = new Sprite(scene, "../assets/img/car0.png", 60, 120); 
     tCar.setAngle(-90);
     tCar.cHeight = 1600;
     tCar.setBoundAction(CONTINUE);
 
 
     // reset the car into some lane, making it slightly faster 
-    // then previous 
     tCar.reset = function(){
-        // randomize what column the vehicle will appear
-        var newX = Math.floor(Math.random() * 4);
-        //carSpeed += 2; 
-        this.setDY(BACKGROUND_SPEED + speed);
+        // randomize what sprite the car will be
+        var newSprite = Math.floor(Math.random() * 6);
+        // fake how long it takes for the sprite to reset it's self
+        spriteLife = (Math.random() * 3) + 1;
+        console.log("spriteLife " + spriteLife);
+        this.setImage("../assets/img/car" + newSprite + ".png");
+        // as background speed progresses, the cars will get faster
+        this.setDY(BACKGROUND_SPEED);
         this.setDX(0);
-        this.setPosition((250 + (100 * newX)), -150);
+        var strtingPostion = Math.floor(Math.random() * 2) + 1;
+        this.setPosition((250 + (75 * position)), (-150 * strtingPostion));
     }
 
     tCar.checkBounds = function(){
-        if (this.y > ( 2 * scene.height)){
+        if (this.y > ( spriteLife * scene.height)){
             this.reset();
         } 
     }
 
     tCar.reset();
+    // start the cars just off the bottom of the canvas 
+    tCar.setPosition((250 + (75 * position)), (scene.height + 100));
     return tCar;
 }
 
-// 
+
 function makeCars(){
     cars = new Array(NUM_CARS);
     for (i = 0; i < NUM_CARS; i++){
-        var sprite = Math.floor(Math.random() * 6);
-        var speed = Math.random() * 2;
-        cars[i] = new Car(sprite, speed);
+        cars[i] = new Car(i);
     }
 }
 
