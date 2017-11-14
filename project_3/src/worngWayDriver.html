@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>Car Chase</title>
+    <script type="text/javascript" src = "./simpleGame.js"></script>
+    <script type="text/javascript" src = "./player.js"></script>
+    <script type="text/javascript" src = "./background.js"></script>
+    <script type="text/javascript" src = "./car.js"></script>
+    <script type="text/javascript" src = "./secondaryObjects.js"></script>
+
+<script type="text/javascript">
+
+var scene; 
+var player;
+var background;
+var cars;
+var trees;
+var displayScore;
+var playerScore = 0;
+
+// Sound effect
+var backgroundSound, skrrt, crash;
+
+// Constants
+var NUM_TREE = 2;
+var BACKGROUND_SPEED = 10;
+var PLAYER_SPEED = 7;
+
+
+function init(){
+    displayScore = document.getElementById("displayScore");
+    // create new scene
+    scene = new Scene();
+    scene.setSize(800, 600);
+    createSound();
+    
+    makeCars();
+    makeSecondaryObject();
+    background = new Background();
+    player = new Player();
+   
+    backgroundSound.play();
+    scene.start();
+} 
+
+function updateScore(){
+    playerScore += 1;
+    result = "Score: " + playerScore;
+    displayScore.innerHTML = result;
+    if((playerScore % 100) == 0){
+        // after every 100 pointes, increase 
+        // the players speed
+        BACKGROUND_SPEED += 1;
+        PLAYER_SPEED += 1;
+    }
+}
+
+function update(){           
+    scene.clear();
+
+    checkCollision()
+
+    background.update();
+    updateCars();
+    updateSecondaryObject();
+    if(scene.touchable){ 
+        player.checkJoyStick();
+    } else{
+        player.checkKeys();
+    }
+
+    
+    player.update();
+    updateScore();
+
+} 
+
+function stop(){
+    scene.stop();
+    crash.play();
+    var replay = confirm("game over. Play again?");
+    if(replay){
+        location.reload(); 
+    }
+}
+
+
+function checkCollision(){
+    // fake the distace between the car sprites
+    // because the bounding box increases on rotation
+    if(keysDown[K_A] || keysDown[K_D]){
+        for (i = 0; i < NUM_CARS; i++){
+            if (player.distanceTo(cars[i]) < 60){ 
+                // make sure not to collide with a car that's passed
+                if(cars[i].x <= 600){stop();}
+            } 
+        } 
+        for(i = 0; i < NUM_OBJECTS; i++){
+            if (player.collidesWith(trees[i])){ stop();} 
+            if (player.collidesWith(cones[i])){ stop(); }
+        }
+
+    } else {
+        // if no rotation, check if overlapping
+        for (i = 0; i < NUM_CARS; i++){
+            if (player.collidesWith(cars[i])){ stop(); } 
+        } 
+        for(i = 0; i < NUM_OBJECTS; i++){
+            if (player.collidesWith(trees[i])){ stop();} 
+            if (player.collidesWith(cones[i])){ stop(); }
+        }
+    }
+    
+}
+
+function createSound(){
+    skrrt = new Sound("../assets/audio/skrrt.ogg");
+    backgroundSound = new Sound("../assets/audio/background.ogg");
+    crash  = new Sound("../assets/audio/crash.ogg");
+}
+
+
+
+</script>
+</head>
+<body onload = "init()">
+    <div id="displayScore">Score: </div>
+</body>
+</html>
