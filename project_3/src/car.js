@@ -13,12 +13,11 @@ function Car(position){
         var newSprite = Math.floor(Math.random() * 6);
         // fake how long it takes for the sprite to reset it's self
         spriteLife = (Math.random() * 3) + 1;
-        console.log("spriteLife " + spriteLife);
         this.setImage("../assets/img/car" + newSprite + ".png");
         // as background speed progresses, the cars will get faster
         this.setDY(BACKGROUND_SPEED);
         this.setDX(0);
-        var strtingPostion = Math.floor(Math.random() * 2) + 1;
+        var strtingPostion = Math.floor(Math.random() * 5) + 1;
         this.setPosition((250 + (75 * position)), (-150 * strtingPostion));
     }
 

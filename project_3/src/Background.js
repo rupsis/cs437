@@ -7,6 +7,7 @@ function Background(){
     tBackground.checkBounds = function(){
         if (this.y > 655){
             this.setPosition(400, -120);
+            tBackground.setDY(BACKGROUND_SPEED);
         } 
     }
            
