@@ -1,0 +1,6 @@
+from Scene import Scene
+from PIL import Image, ImageTk
+from tkinter import *
+
+Class Sprite(Scene):
+    def _init_(self):
