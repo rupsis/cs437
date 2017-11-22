@@ -1,12 +1,12 @@
 from tkinter import *
 
-class Scene(Frame):
+class Scene(Canvas):
 
     root = Tk()
 
-    def _init_(self, master=None):
-        Frame.__init__(self, master)
-        self.master = master
+    def __init__(self, master=None):
+        Canvas.__init__(self)
+
 
 
 

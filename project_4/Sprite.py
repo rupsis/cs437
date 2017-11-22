@@ -1,11 +1,17 @@
 from Scene import Scene
-from PIL import Image, ImageTk
 from tkinter import *
 
-class Sprite():
+class Sprite:
 
-    def _init_(self, Scene, imagePath, width, height):
+    def __init__(self, Scene, imagePath, width, height):
         # open the image
-        spriteImage = ImageTk.PhotoImage(open(imagePath))
-        Sprite = Label(Scene, image = spriteImage)
+        spriteImage = PhotoImage(file=imagePath)
+        spriteImage.zoom(width, height)
+        Sprite = Label(Scene, image=spriteImage)
+
         Sprite.pack()
+        Sprite.update()
+
+    # def update(self, image):
+
+
