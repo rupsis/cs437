@@ -1,6 +1,6 @@
 from Scene import Scene
 from Sprite import Sprite
-from tkinter import *
+
 
 def main():
 

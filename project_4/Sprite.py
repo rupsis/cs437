@@ -1,5 +1,5 @@
 from Scene import Scene
-from tkinter import *
+import tkinter as tk
 
 class Sprite:
 
@@ -37,6 +37,18 @@ class Sprite:
     def setDY(self, dy):
         self.dy = dy
 
+    def setSize(self, width, height):
+        self.height += height
+        self.width += width
+        # make sure the object stays at least 1x1
+        if self.width <= 1:
+            self.width = 1
+
+        if self.height <= 1:
+            self.height = 1
+
+
+
     def setSpeed(self, speed):
         self.speed = speed
 
@@ -55,9 +67,22 @@ class Sprite:
         else:
             self.dy = 0
 
+        # rotation
+        if keyDown == 'LEFT':
+            self.dx = -self.speed
+        elif keyDown == 'RIGHT':
+            self.dx = self.speed
+
+        # scale
+        if keyDown == 'q':
+            self.setSize(-1, -1)
+        elif keyDown == 'e':
+            self.setSize(1, 1)
+
         print(keyDown)
         self.update()
 
+    # update the sprite object
     def update(self):
         self.x += self.dx
         self.y += self.dy
@@ -67,9 +92,6 @@ class Sprite:
 
     # checks the bounds of the sprite object
     def checkbounds(self):
-        print("width: {}".format(self.canvas.winfo_width()))
-        print("dx: {}".format(self.dx))
-        print("x position: {}".format(self.x))
         # basic canvas wrap around bounds checking
         if self.x >= self.canvas.winfo_width():
             self.x = 0

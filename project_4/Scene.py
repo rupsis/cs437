@@ -1,4 +1,4 @@
-from tkinter import *
+import tkinter as tk
 import time
 
 class Scene:
@@ -8,8 +8,8 @@ class Scene:
 
     def __init__(self):
         print("scene")
-        self.root = Tk()
-        self.canvas = Canvas(self.root, width=800, height=600)
+        self.root = tk.Tk()
+        self.canvas = tk.Canvas(self.root, width=800, height=600)
         self.canvas.pack()
 
 
