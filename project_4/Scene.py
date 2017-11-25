@@ -1,6 +1,10 @@
 from tkinter import *
+import time
 
 class Scene:
+
+    #define the minimum framerate
+    time = 0.033
 
     def __init__(self):
         print("scene")
@@ -14,7 +18,11 @@ class Scene:
     def startScene(self):
         # make it so the user cannot resize the window
         self.root.resizable(False, False)
-        self.root.mainloop()
+        # self.root.mainloop()
+        while True:
+            self.root.update_idletasks()
+            self.root.update()
+            time.sleep(self.time)
 
     #  set the scenes height and width in pixels
     def setSize(self, width, height):
@@ -24,3 +32,10 @@ class Scene:
     # set the title of the game window
     def setTitle(self, title):
         self.root.title(title)
+
+    def setFrameRate(self, fps):
+        self.time = float((1 / fps))
+
+    # bind and an even to a function
+    def bind(self, key, function):
+        self.root.bind(key, function)
