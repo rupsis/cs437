@@ -5,27 +5,29 @@ class Scene:
 
     #define the minimum framerate
     time = 0.033
+    width = 800
+    height = 600
 
     def __init__(self):
         print("scene")
         self.root = tk.Tk()
-        self.canvas = tk.Canvas(self.root, width=800, height=600)
+        self.canvas = tk.Canvas(self.root, width=self.width, height=self.height)
         self.canvas.pack()
 
-
-
-
-    def startScene(self):
+    # takes user defined update method
+    def startScene(self, update):
         # make it so the user cannot resize the window
         self.root.resizable(False, False)
-        # self.root.mainloop()
         while True:
+            update()
             self.root.update_idletasks()
             self.root.update()
             time.sleep(self.time)
 
     #  set the scenes height and width in pixels
     def setSize(self, width, height):
+        self.width = width
+        self.height = height
         self.canvas.config(width=width, height=height)
         self.root.geometry(("%dx%d")%(width,height))
 

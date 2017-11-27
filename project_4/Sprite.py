@@ -1,8 +1,12 @@
 from Scene import Scene
 import tkinter as tk
+from PIL import Image, ImageTk
+import uuid
+import math
 
 class Sprite:
 
+    angle = 0
     width = 0
     height = 0
     x = 0
@@ -11,19 +15,24 @@ class Sprite:
     dy = 0
     speed = 10
 
-    def __init__(self, Scene, width, height):
-        Scene.bind('<Any-KeyPress>', self.checkKeys)
+    def __init__(self, Scene, imagePath, width, height):
+        self.id = uuid.uuid1()
         self.width = width
         self.height = height
         self.canvas = Scene.canvas
-        self.canvas.create_rectangle(0, 0, width, height , fill="#476042", tag="player")
+        self.imagePath = imagePath
+        self.img = Image.open(imagePath)
+        self.spriteImage = ImageTk.PhotoImage(self.img)
+        # self.canvas.create_rectangle(0, 0, width, height , fill="#476042", tag="player")
+        self.canvas.create_image(0, 0, image=self.spriteImage, anchor='center', tag=self.id)
 
 
     # set the postion of the sprite
     def setPosition(self, x, y):
         self.setX(x)
         self.setY(y)
-        self.canvas.move('player', x, y)
+        self.canvas.delete(self.id)
+        self.canvas.create_image(self.x, self.y, image=self.spriteImage, anchor='center', tag=self.id)
 
     def setX(self, x):
         self.x = x
@@ -47,48 +56,41 @@ class Sprite:
         if self.height <= 1:
             self.height = 1
 
+        self.spriteImage = ImageTk.PhotoImage(self.img.resize((self.width, self.height)))
+
+
+
+    def rotate(self, angle):
+
+        self.angle += angle
+
+        # keep rotation between 0-360
+        if self.angle < 0:
+            self.angle = (360 - angle)
+        if self.angle > 360:
+            self.angle = (0 + angle)
+        self.spriteImage = ImageTk.PhotoImage(self.img.rotate(self.angle, expand=1))
 
 
     def setSpeed(self, speed):
         self.speed = speed
-
-    def checkKeys(self, event):
-        keyDown = event.keysym
-        if keyDown == 'a':
-            self.dx = -self.speed
-        elif keyDown == 'd':
-            self.dx = self.speed
-        else:
-            self.dx = 0
-        if keyDown == 'w':
-            self.dy = -self.speed
-        elif keyDown == 's':
-            self.dy = self.speed
-        else:
-            self.dy = 0
-
-        # rotation
-        if keyDown == 'LEFT':
-            self.dx = -self.speed
-        elif keyDown == 'RIGHT':
-            self.dx = self.speed
-
-        # scale
-        if keyDown == 'q':
-            self.setSize(-1, -1)
-        elif keyDown == 'e':
-            self.setSize(1, 1)
-
-        print(keyDown)
-        self.update()
 
     # update the sprite object
     def update(self):
         self.x += self.dx
         self.y += self.dy
         self.checkbounds()
-        self.canvas.delete('player')
-        self.canvas.create_rectangle(self.x, self.y, (self.x + self.width), (self.y + self.height), fill="#476042", tag="player")
+        self.canvas.delete(self.id)
+        self.canvas.create_image(self.x, self.y, image=self.spriteImage, anchor='center', tag=self.id)
+
+    def checkCollision(self):
+
+        # Check to see if there is a collision with this game object
+        if len(self.canvas.find_overlapping(*self.canvas.bbox(self.id))) > 1:
+            return True
+
+        return False
+
 
     # checks the bounds of the sprite object
     def checkbounds(self):
