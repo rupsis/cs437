@@ -27,13 +27,8 @@ def main():
                 randint(0, scene.height)
             )
 
-
-
     #  start the game loop
     scene.startScene(checkPlayerCollisions)
-
-
-
 
 
 main()

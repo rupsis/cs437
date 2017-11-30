@@ -9,7 +9,6 @@ class Scene:
     height = 600
 
     def __init__(self):
-        print("scene")
         self.root = tk.Tk()
         self.canvas = tk.Canvas(self.root, width=self.width, height=self.height)
         self.canvas.pack()
