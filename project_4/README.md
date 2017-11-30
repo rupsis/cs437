@@ -9,7 +9,7 @@ The following packages are required:
 ## Run 
 `python main.py`
 
-## Controlls
+## Controls
 Translation: `W A S D`
 Rotation: `Left Right`
 Scale: `E Q`
